@@ -11,4 +11,5 @@ class User(Base):
     name = Column(String)
     email = Column(String)
     password = Column(String)
+
     

@@ -7,6 +7,7 @@ from database import SessionLocal, engine
 from passlib.context import CryptContext
 import hashing
 from database import get_db
+import oauth2
 
 router = APIRouter(prefix='/user')
 
@@ -18,10 +19,19 @@ def create_user(request:schemas.User, db:Session = Depends(get_db)):
     db.refresh(new_user)
     return new_user
 
-
+'''
 @router.get('/{id}',response_model=schemas.ShowUser,tags=['user'])
-def get_user(id:int, db: Session = Depends(get_db)):
+def get_user(id:int, db: Session = Depends(get_db),get_current_user: schemas.User = Depends (oauth2.get_current_user)):
     user = db.query(models.User).filter(models.User.id == id).first()
+    if not user:
+        raise HTTPException(status_code=404,detail="sad")
+    return user
+this route helps in getting a user when id is given
+'''
+
+@router.get('/',response_model=schemas.ShowUser,tags=['user'])
+def get_user( db: Session = Depends(get_db),get_current_user: schemas.TokenData = Depends (oauth2.get_current_user)):
+    user = db.query(models.User).filter(models.User.email == get_current_user.email).first()
     if not user:
         raise HTTPException(status_code=404,detail="sad")
     return user
