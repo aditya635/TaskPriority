@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String,UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -9,7 +9,15 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
-    email = Column(String)
+    email = Column(String, unique= True)
     password = Column(String)
+
+class Task(Base):
+    __tablename__ = 'tasks'
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    description = Column(String)
+    priority = Column(Integer)
 
     

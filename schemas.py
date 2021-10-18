@@ -12,6 +12,11 @@ class User(BaseModel):
     email:str
     password:str
 
+class Task(BaseModel):
+    name:str
+    description:str
+    priority:int
+
 class Login(BaseModel):
     username:str
     password:str

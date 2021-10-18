@@ -12,7 +12,19 @@ import oauth2
 router = APIRouter(prefix='/tasks')
 
 
-@router.get('/')
-def showall():
-    pass
+@router.get('/',response_model= schemas.Task,tags=['tasks'])
+def showall(db: Session = Depends(get_db)):
+    tasks = db.query(models.Task).all()
+    return tasks
+
+
+@router.post('/',response_model= schemas.Task,tags=['tasks'])
+def make(request: schemas.Task ,db: Session = Depends(get_db)):
+    new_task = models.Task(name = request.name, description = request.description, priority=request.priority)
+    db.add(new_task)
+    db.commit()
+    db.refresh(new_task)
+    return new_task
+
+    
 
