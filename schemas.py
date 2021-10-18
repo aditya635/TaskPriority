@@ -16,6 +16,8 @@ class Task(BaseModel):
     name:str
     description:str
     priority:int
+    class Config():
+        orm_mode=True
 
 class Login(BaseModel):
     username:str
