@@ -11,6 +11,7 @@ class User(Base):
     name = Column(String)
     email = Column(String, unique= True)
     password = Column(String)
+    tasks = relationship("Task",  back_populates="creator")
 
 class Task(Base):
     __tablename__ = 'tasks'
@@ -19,5 +20,7 @@ class Task(Base):
     name = Column(String)
     description = Column(String)
     priority = Column(Integer)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    creator = relationship("User", back_populates="tasks")
 
     

@@ -20,8 +20,8 @@ def showall(db: Session = Depends(get_db)):
 
 
 @router.post('/',response_model=schemas.Task,tags=['tasks'])
-def make(request: schemas.Task ,db: Session = Depends(get_db)):
-    new_task = models.Task(name = request.name, description = request.description, priority=request.priority)
+def make(request: schemas.Task ,db: Session = Depends(get_db),get_current_user: schemas.TokenData = Depends (oauth2.get_current_user)):
+    new_task = models.Task(name = request.name, description = request.description, priority=request.priority, user_id = get_current_user.id)
     db.add(new_task)
     db.commit()
     db.refresh(new_task)

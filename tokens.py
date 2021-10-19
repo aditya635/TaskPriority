@@ -1,3 +1,4 @@
+from logging import error
 from fastapi.exceptions import HTTPException
 from jose import JWTError, jwt
 from datetime import time,timedelta,datetime
@@ -24,11 +25,11 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
 def verify_token(credentials_exception,token: str ):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get("sub")
-        if email is None:
+        payload:str = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        id:str = payload.get("sub")
+        if id is None:
             raise credentials_exception
-        token_data = TokenData(email=email)
+        token_data = TokenData(id=int(id))
         return token_data
     except JWTError:
         raise credentials_exception

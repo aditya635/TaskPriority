@@ -31,7 +31,7 @@ this route helps in getting a user when id is given
 
 @router.get('/',response_model=schemas.ShowUser,tags=['user'])
 def get_user( db: Session = Depends(get_db),get_current_user: schemas.TokenData = Depends (oauth2.get_current_user)):
-    user = db.query(models.User).filter(models.User.email == get_current_user.email).first()
+    user = db.query(models.User).filter(models.User.id == get_current_user.id).first()
     if not user:
         raise HTTPException(status_code=404,detail="sad")
     return user
