@@ -13,7 +13,7 @@ from typing import List
 router = APIRouter(prefix='/tasks')
 
 
-@router.get('/',response_model= List[schemas.Task],tags=['tasks'])
+@router.get('/',response_model= List[schemas.Tasks],tags=['tasks'])
 def showall(db: Session = Depends(get_db)):
     tasks = db.query(models.Task).all()
     return tasks

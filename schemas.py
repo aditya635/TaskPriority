@@ -5,6 +5,13 @@ class Task(BaseModel):
     name:str
     description:str
     priority:int
+    class Config():
+        orm_mode=True
+
+class Tasks(BaseModel):
+    name:str
+    description:str
+    priority:int
     user_id: int
     class Config():
         orm_mode=True
